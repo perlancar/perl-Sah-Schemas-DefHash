@@ -8,7 +8,7 @@ our $schema = ['defhash', {
     keys => {
         defhash_v => ['int', {req=>1, is=>1}, {}],
     },
-}, []];
+}, {}];
 
 1;
 # ABSTRACT:
