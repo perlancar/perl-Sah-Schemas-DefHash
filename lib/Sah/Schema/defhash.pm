@@ -1,6 +1,8 @@
 package Sah::Schema::defhash;
 
+# AUTHORITY
 # DATE
+# DIST
 # VERSION
 
 use strict;
@@ -75,6 +77,12 @@ our $schema = [hash => {
     },
     'keys.restrict' => 0,
     'allowed_keys_re' => '\A(\.\w+(\.\w+)*|\w+(\.\w+)*(\([a-z]{2}(_[A-Z]{2})?\))?)\z',
+
+    examples => [
+        {value=>{}, valid=>1},
+        {value=>{foo=>1, bar=>1}, valid=>1},
+        {value=>{"foo-bar"=>1}, valid=>0, summary=>"Invalid property syntax, contains dash"},
+    ],
 }, {}];
 
 # XXX check known attributes (.alt, etc)
