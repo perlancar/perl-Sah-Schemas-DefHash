@@ -8,13 +8,16 @@ package Sah::Schema::defhash;
 use strict;
 use warnings;
 
+use Regexp::Pattern::DefHash;
+
 our $schema = [hash => {
     summary => 'DefHash',
+    'allowed_keys_re' => $Regexp::Pattern::DefHash::RE{key}{pat},
     keys => {
 
-        v         => ['float', {req=>1, default=>1}, {}],
+        v         => ['float', {req=>1, default=>1}],
 
-        defhash_v => ['int', {req=>1, default=>1}, {}],
+        defhash_v => ['int', {req=>1, default=>1}],
 
         name      => ['str', {
             req=>1,
@@ -31,9 +34,9 @@ our $schema = [hash => {
                 },
             ],
             'clset.op' => 'and',
-        }, {}],
+        }],
 
-        caption   => ['str', {req=>1}, {}],
+        caption   => ['str', {req=>1}],
 
         summary   => ['str', {
             req => 1,
@@ -51,21 +54,19 @@ our $schema = [hash => {
                 },
             ],
             'clset.op' => 'and',
-        }, {}],
+        }],
 
-        description => ['str', {
-            req => 1,
-        }, {}],
+        description => ['str', {req => 1}],
 
         tags => ['array', {
             of => ['any', {
                 req => 1,
                 of => [
-                    ['str', {req=>1}, {}],
-                    ['defhash', {req=>1}, {}],
+                    ['str', {req=>1}],
+                    ['hash', {req=>1}], # XXX defhash
                 ],
-            }, {}],
-        }, {}],
+            }],
+        }],
 
         default_lang => ['str', {
             req => 1,
@@ -76,14 +77,13 @@ our $schema = [hash => {
         }, {}],
     },
     'keys.restrict' => 0,
-    'allowed_keys_re' => '\A(\.\w+(\.\w+)*|\w+(\.\w+)*(\([a-z]{2}(_[A-Z]{2})?\))?)\z',
 
     examples => [
         {value=>{}, valid=>1},
         {value=>{foo=>1, bar=>1}, valid=>1},
         {value=>{"foo-bar"=>1}, valid=>0, summary=>"Invalid property syntax, contains dash"},
     ],
-}, {}];
+}];
 
 # XXX check known attributes (.alt, etc)
 # XXX check alt.XXX format (e.g. must be alt\.(lang\.\w+|env_lang\.\w+)
